@@ -40,7 +40,7 @@ var config = require('config');
 var app = express();
 var PORT = config.get('port');
 app.get('/', function (request, response) {
-    response.send('Hell!');
+    response.send('Helloooooo!');
 });
 function start() {
     return __awaiter(this, void 0, void 0, function () {

@@ -1,0 +1,26 @@
+header.ant-layout-header{
+    display: grid;
+    padding: 0 15px 0 0;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    background-image: url("../../assets/images/p.png");
+    background-size: contain;
+}
+
+.ant-layout-header, .ant-layout-sider, .ant-menu-root {
+    background-color: #1f4d6a !important ;
+
+}
+.logout {
+    justify-self: end;
+
+}
+
+.logout a{
+    color: #fff!important;
+    cursor: pointer;
+}

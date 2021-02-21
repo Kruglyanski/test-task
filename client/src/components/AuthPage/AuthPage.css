@@ -1,0 +1,25 @@
+.form-wrapper {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+form.login-form{
+    width: 30vw;
+    margin: 0 auto;
+    border: solid 1px #1890ff;
+    padding: 10px 50px;
+    border-radius: 8px;
+    background-color: white;
+}
+
+form h2 {
+    color: #1890ff;
+    margin-bottom: 30px;
+}
+
+form .login-form-button{
+    width: 150px;
+}

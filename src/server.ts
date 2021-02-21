@@ -6,7 +6,7 @@ const app = express()
 const PORT = config.get('port')
 
 app.get('/', (request, response) => {
-    response.send('Hell!')
+    response.send('Helloooooo!')
 })
 
 async function start() {
