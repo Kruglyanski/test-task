@@ -1,8 +1,14 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 
-export type AuthFormType = {
+export type LoginFormType = {
     email: string
     password: string
+
+}
+export type RegistrationFormType = {
+    email: string
+    password: string
+    name: string
 
 }
 
@@ -11,10 +17,16 @@ const initialState = {
     token: null,
     userId: null,
     error: null,
-    isAuthenticated: true,
+    isAuthenticated: false,
     isRegistered: false,
-    form: {
-        email: '', password: ''
+    loginForm: {
+        email: '',
+        password: ''
+    },
+    registrationForm: {
+        email: '',
+        password: '',
+        name: ''
     }
 }
 
@@ -32,10 +44,16 @@ const authReducer = createSlice({
     name: 'authReducer',
     initialState,
     reducers: {
-        formChange: (state, action) => {
+        loginFormChange: (state, action) => {
             return {
                 ...state,
-                form: {...state.form, ...action.payload}
+                loginForm: {...state.loginForm, ...action.payload}
+            }
+        },
+        registrationFormChange: (state, action) => {
+            return {
+                ...state,
+                registrationForm: {...state.registrationForm, ...action.payload}
             }
         },
         setIsAuthenticated: (state, action) => {
@@ -85,6 +103,6 @@ const authReducer = createSlice({
     }
 })
 
-export const {authLogout, formChange, setIsAuthenticated, setIsCustomModalVisible} = authReducer.actions
+export const {authLogout, loginFormChange, registrationFormChange, setIsAuthenticated, setIsCustomModalVisible} = authReducer.actions
 
 export default authReducer.reducer

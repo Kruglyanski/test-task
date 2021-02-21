@@ -34,14 +34,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var path = require('path');
 var mongoose = require('mongoose');
 var express = require('express');
 var config = require('config');
 var app = express();
 var PORT = config.get('port');
-app.get('/', function (request, response) {
-    response.send('Helloooooo!');
-});
+var authRoutes = require('./routes/auth');
+app.use(express.json({ extended: true }));
+app.use('/api/auth', authRoutes);
+if (process.env.NODE_ENV === 'production') {
+    app.use('/', express.static(path.join(__dirname, 'client', 'build')));
+    app.get('*', function (req, res) {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
 function start() {
     return __awaiter(this, void 0, void 0, function () {
         var e_1;

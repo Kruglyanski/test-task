@@ -16,7 +16,7 @@ export const EmojiPicker = () => {
             ) : (
                 <span>No emoji Chosen</span>
             )}
-            <Picker disableAutoFocus={true} disableSearchBar={true} pickerStyle={{ width: '100%', height: 300 }} onEmojiClick={onEmojiClick} />
+            <Picker disableAutoFocus={true} disableSearchBar={true} pickerStyle={{ width: '100%', height: '300px' }} onEmojiClick={onEmojiClick} />
         </div>
     )
 }

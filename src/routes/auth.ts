@@ -4,7 +4,7 @@ const User = require('../models/User')
 const bcrypt = require('bcryptjs')
 const {check, validationResult} = require('express-validator')
 const jwt = require('jsonwebtoken')
-import config from 'config'
+import  config from 'config'
 
 
 // /api/auth/register
@@ -15,7 +15,7 @@ router.post(
         check('password','Minimal length of password is 6 symbols')
             .isLength({min: 6})
     ],
-    async (req, res) =>{
+    async (req: any, res: any) =>{
         try {
 
             const errors = validationResult(req)
@@ -23,7 +23,7 @@ router.post(
             if (!errors.isEmpty()) {
                 return res.status(400).json({errors: errors.array(), message: "Incorrect registration data"})
             }
-            const {email, password} = req.body
+            const {email, password, name} = req.body
 
             const candidate = await User.findOne({email: email})
 
@@ -32,7 +32,7 @@ router.post(
             }
 
             const hashedPassword = await bcrypt.hash(password, 12)
-            const user = new User({email, password: hashedPassword})
+            const user = new User({email, password: hashedPassword, name})
             await user.save()
             res.status(201).json({message: "User successfully created"})
         } catch (e) {
@@ -48,7 +48,7 @@ router.post(
 
     ],
 
-    async (req, res) =>{
+    async (req: any, res: any) =>{
         try {
 
             const errors = validationResult(req)

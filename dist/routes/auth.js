@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var Router = require('express').Router;
 var router = Router();
 var User = require('../models/User');
@@ -112,7 +112,7 @@ router.post('/login', [
                 if (!isMatch) {
                     return [2 /*return*/, res.status(400).json({ message: "Incorrect login data" })];
                 }
-                token = jwt.sign({ userId: user.id }, config_1.default.get('jwtSecret'), { expiresIn: '1h' });
+                token = jwt.sign({ userId: user.id }, config_1["default"].get('jwtSecret'), { expiresIn: '1h' });
                 res.json({ token: token, userId: user.id });
                 return [3 /*break*/, 4];
             case 3:

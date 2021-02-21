@@ -8,6 +8,10 @@ import {
 import {QuestionCircleOutlined} from '@ant-design/icons'
 import {FileUploader} from '../FileUploader/FileUploader'
 import './RegistrationForm.css'
+import {useDispatch, useSelector} from 'react-redux'
+import {RootState} from '../../redux/rootReducer'
+import {loginFormChange, registrationFormChange} from '../../redux/authReducer'
+import {api} from '../../api/api'
 
 const formItemLayout = {
     labelCol: {
@@ -41,20 +45,23 @@ const tailFormItemLayout = {
     }
 }
 export const RegistrationForm = () => {
-    const [form] = Form.useForm()
-
+    const [f] = Form.useForm()
+    const dispatch = useDispatch()
+    const registrationForm = useSelector((state: RootState) => state.auth.registrationForm)
+    const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(registrationFormChange({[event.target.name]: event.target.value}))
+    }
+    const registerHandler =  async () => {
+       const res =  await api.register(registrationForm)
+        console.log('res', res)
+    }
     return (
 
         <Form
             {...formItemLayout}
-            form={form}
+            form={f}
             name="register"
 
-            initialValues={{
-                residence: ['zhejiang', 'hangzhou', 'xihu'],
-                prefix: '86'
-            }}
-            scrollToFirstError
         >
             <Form.Item
                 name="email"
@@ -70,7 +77,11 @@ export const RegistrationForm = () => {
                     }
                 ]}
             >
-                <Input/>
+                <Input
+                    name="email"
+                    value={registrationForm.email}
+                    onChange={changeHandler}
+                />
             </Form.Item>
 
             <Form.Item
@@ -84,7 +95,11 @@ export const RegistrationForm = () => {
                 ]}
                 hasFeedback
             >
-                <Input.Password/>
+                <Input.Password
+                    name="password"
+                    value={registrationForm.password}
+                    onChange={changeHandler}
+                />
             </Form.Item>
 
             <Form.Item
@@ -129,15 +144,23 @@ export const RegistrationForm = () => {
                     }
                 ]}
             >
-                <Input/>
+                <Input
+                    name="name"
+                    value={registrationForm.name}
+                    onChange={changeHandler}
+                />
             </Form.Item>
             <div className='uploadWrapper'>
                 <FileUploader/>
             </div>
-
-<br/>
+            <br/>
             <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit" style={{width: 150}} >
+                <Button
+                    type="primary"
+                    htmlType="submit"
+                    style={{width: 150}}
+                onClick={registerHandler}
+                >
                     Register
                 </Button>
             </Form.Item>

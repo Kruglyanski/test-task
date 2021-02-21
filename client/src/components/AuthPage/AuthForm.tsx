@@ -1,22 +1,25 @@
 import React from 'react'
 import {Button, Form, Input} from 'antd'
 import {UserOutlined, LockOutlined} from '@ant-design/icons'
-import {AuthFormType, setIsCustomModalVisible} from '../../redux/authReducer'
-import {useDispatch} from 'react-redux'
+import {loginFormChange, setIsCustomModalVisible} from '../../redux/authReducer'
+import {useDispatch, useSelector} from 'react-redux'
+import {RootState} from '../../redux/rootReducer'
 
 
-type PropsType = {
-    buttonName: string
-    formTitle: string
-    changeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void
-    form: AuthFormType
-}
-export const AuthForm: React.FC<PropsType> = ({buttonName, formTitle, changeHandler, form}) => {
+export const AuthForm: React.FC = () => {
     const dispatch = useDispatch()
+    const loginForm = useSelector((state: RootState) => state.auth.loginForm)
 
     const showModal = () => {
         dispatch(setIsCustomModalVisible(true))
     }
+    const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(loginFormChange({[event.target.name]: event.target.value}))
+    }
+    const loginHandler = () => {
+
+    }
+
     return (
         <div className="form-wrapper">
 
@@ -26,14 +29,14 @@ export const AuthForm: React.FC<PropsType> = ({buttonName, formTitle, changeHand
                 initialValues={{remember: true}}
             >
                 <div className='logo'/>
-                <h2>{formTitle}</h2>
+                <h2>Planktonics Social Network</h2>
                 <Form.Item
                     name="username"
                     rules={[{required: true, message: 'Please input your Username!'}]}
                 >
                     <Input
                         prefix={<UserOutlined className="site-form-item-icon"/>}
-                        value={form.email}
+                        value={loginForm.email}
                         name="email"
                         onChange={changeHandler}
                         placeholder="Username"
@@ -53,8 +56,13 @@ export const AuthForm: React.FC<PropsType> = ({buttonName, formTitle, changeHand
 
                 <Form.Item>
 
-                    <Button type="primary" htmlType="submit" className="login-form-button">
-                        {buttonName}
+                    <Button
+                        type="primary"
+                        htmlType="submit"
+                        className="login-form-button"
+                    onClick={loginHandler}
+                    >
+                        Log In
                     </Button>
                     <br/>
                     Or <a  onClick={showModal}>register now!</a>

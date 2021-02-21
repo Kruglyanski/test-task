@@ -1,6 +1,8 @@
-var _a = require('mongoose'), Schema = _a.Schema, model = _a.model, Types = _a.Types;
-var schema = new Schema({
+"use strict";
+exports.__esModule = true;
+var mongoose_1 = require("mongoose");
+var schema = new mongoose_1.Schema({
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    password: { type: String, required: true }
 });
-module.exports = model('User', schema);
+module.exports = mongoose_1.model('User', schema);
