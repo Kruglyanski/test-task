@@ -1,5 +1,6 @@
 import React from 'react'
 import { Layout, Menu } from 'antd'
+import {authLogout} from '../../redux/authReducer'
 import { UploadOutlined, UserOutlined, CoffeeOutlined } from '@ant-design/icons'
 import {Link, useHistory, useLocation} from 'react-router-dom'
 import './CustomLayout.css'
@@ -11,11 +12,11 @@ export const CustomLayout:React.FC<React.ReactNode> = ({children}) => {
     const history = useHistory()
     let location = useLocation()
     const dispatch = useDispatch()
-    // const logoutHandler = () => {
-    //     localStorage.removeItem('userData')
-    //     dispatch(authLogout())
-    //     history.push(`/`)
-    // }
+    const logoutHandler = () => {
+        //localStorage.removeItem('userData')
+        dispatch(authLogout())
+        history.push(`/`)
+    }
     return (
 
         <Layout style={{minHeight: '100vh', height: 'auto'}}>
@@ -48,10 +49,9 @@ export const CustomLayout:React.FC<React.ReactNode> = ({children}) => {
             </Sider>
             <Layout>
                 <Header className="site-layout-sub-header-background"  >
+
                     <div className='logout' >
-                    </div>
-                    <div className='logout' >
-                        <Link to={'/'} onClick={() =>console.log('logout')}>Выйти</Link>
+                        <Link to={'/'} onClick={logoutHandler}>Выйти</Link>
                     </div>
                 </Header>
                 <Content style={{ margin: '24px 16px 0' }}>

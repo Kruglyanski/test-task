@@ -10,8 +10,8 @@ import {FileUploader} from '../FileUploader/FileUploader'
 import './RegistrationForm.css'
 import {useDispatch, useSelector} from 'react-redux'
 import {RootState} from '../../redux/rootReducer'
-import {loginFormChange, registrationFormChange} from '../../redux/authReducer'
-import {api} from '../../api/api'
+import {authRegister, registrationFormChange} from '../../redux/authReducer'
+
 
 const formItemLayout = {
     labelCol: {
@@ -52,8 +52,8 @@ export const RegistrationForm = () => {
         dispatch(registrationFormChange({[event.target.name]: event.target.value}))
     }
     const registerHandler =  async () => {
-       const res =  await api.register(registrationForm)
-        console.log('res', res)
+
+        dispatch(authRegister(registrationForm))
     }
     return (
 

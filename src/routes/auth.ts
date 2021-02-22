@@ -57,17 +57,19 @@ router.post(
                 return res.status(400).json(({errors: errors.array(), message: "Incorrect login data"}))
             }
             const {email, password} = req.body
+            console.log('req.body', req.body)
 
             const user = await User.findOne({email: email})
 
             if(!user) {
-                return res.status(400).json({ message: "Incorrect login data"})
+
+                return res.status(400).json({ message: "Incorrect email data"})
             }
             const isMatch =  await bcrypt.compare(password, user.password)
 
             if(!isMatch) {
 
-                return res.status(400).json({ message: "Incorrect login data"})
+                return res.status(400).json({ message: "Incorrect pwd data"})
             }
 
             const token = jwt.sign(

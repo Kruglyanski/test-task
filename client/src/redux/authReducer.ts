@@ -1,4 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
+import {api} from '../api/api'
 
 export type LoginFormType = {
     email: string
@@ -16,9 +17,10 @@ const initialState = {
     isModalVisible: false,
     token: null,
     userId: null,
-    error: null,
+    authError: '',
     isAuthenticated: false,
     isRegistered: false,
+    registerMessage: '',
     loginForm: {
         email: '',
         password: ''
@@ -31,13 +33,27 @@ const initialState = {
 }
 
 
-// export const authLogin = createAsyncThunk(
-//     'authReducer/authLogin ',
-//     // async ({email: string, password: string}) => {
-//     //      const data =  "db"
-//
-//     // }
-// )
+export const authLogin = createAsyncThunk(
+    'authReducer/authLogin ',
+    async (loginForm: LoginFormType) => {
+
+            const data = await api.login(loginForm)
+                .then((res) => res && res.json())
+
+            if (!data.token) {
+                throw new Error(data.message || 'Something went wrong!')
+            }
+            return data
+
+    }
+)
+export const authRegister = createAsyncThunk(
+    'authReducer/authRegister ',
+    async (registrationForm: RegistrationFormType) => {
+        return await api.register(registrationForm)
+            .then((res) => res && res.json())
+    }
+)
 
 
 const authReducer = createSlice({
@@ -69,37 +85,57 @@ const authReducer = createSlice({
             }
         },
 
-        authLogout: (state, action) => {
+        authLogout: (state) => {
             return {
                 ...state,
                 token: null,
                 userId: null,
                 isAuthenticated: false
             }
-        },
+        }
 
     },
-    extraReducers: builder => {
-        // builder.addCase(authLogin.fulfilled, (state, action) => {
-        //         return {
-        //             ...state,
-        //             token: action.payload.token,
-        //             userId: action.payload.id,
-        //             error: action.payload.error,
-        //             isAuthenticated: !!action.payload.token,
-        //
-        //         }
-        //
-        //     }
-        // ).addCase(authLogin.rejected, (state, action) => {
-        //             return {
-        //                 ...state,
-        //                 error: 'Введены неправильные данные',
-        //                 isAlertShow: true
-        //             }
-        //
-        //         }
-        //     )
+    extraReducers: {
+
+        [authRegister.fulfilled.type]: (state, action) => {
+
+            return {
+                ...state,
+                registerMessage: action.payload.message
+
+            }
+
+        },
+        [authRegister.rejected.type]: (state, action) => {
+
+            return {
+                ...state,
+                registerMessage: action.error.message
+
+            }
+
+        },
+        [authLogin.fulfilled.type]: (state, action) => {
+
+            return {
+                ...state,
+                token: action.payload.token,
+                userId: action.payload.userId,
+                isAuthenticated: !!action.payload.token,
+
+            }
+
+        },
+
+        [authLogin.rejected.type]: (state, action) => {
+            return {
+                ...state,
+                authError: action.error.message
+
+            }
+
+        }
+
     }
 })
 

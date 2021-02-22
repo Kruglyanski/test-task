@@ -1,9 +1,10 @@
 import React from 'react'
 import {Button, Form, Input} from 'antd'
 import {UserOutlined, LockOutlined} from '@ant-design/icons'
-import {loginFormChange, setIsCustomModalVisible} from '../../redux/authReducer'
+import {authLogin, loginFormChange, setIsCustomModalVisible} from '../../redux/authReducer'
 import {useDispatch, useSelector} from 'react-redux'
 import {RootState} from '../../redux/rootReducer'
+import { api } from '../../api/api'
 
 
 export const AuthForm: React.FC = () => {
@@ -16,8 +17,8 @@ export const AuthForm: React.FC = () => {
     const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(loginFormChange({[event.target.name]: event.target.value}))
     }
-    const loginHandler = () => {
-
+    const loginHandler =  async () => {
+       await dispatch(authLogin(loginForm))
     }
 
     return (
@@ -50,7 +51,9 @@ export const AuthForm: React.FC = () => {
                     <Input
                         prefix={<LockOutlined className="site-form-item-icon"/>}
                         type="password"
+                        name="password"
                         placeholder="Password"
+                        onChange={changeHandler}
                     />
                 </Form.Item>
 
@@ -60,12 +63,12 @@ export const AuthForm: React.FC = () => {
                         type="primary"
                         htmlType="submit"
                         className="login-form-button"
-                    onClick={loginHandler}
+                        onClick={loginHandler}
                     >
                         Log In
                     </Button>
                     <br/>
-                    Or <a  onClick={showModal}>register now!</a>
+                    Or <a onClick={showModal}>register now!</a>
                 </Form.Item>
             </Form>
         </div>
