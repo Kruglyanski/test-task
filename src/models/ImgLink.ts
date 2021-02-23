@@ -1,6 +1,6 @@
 import {Schema, model} from 'mongoose'
 const schema = new Schema({
-    imgSrc: {type: String},
+    avatar: {type: String},
     userId: {type: String}
 })
 

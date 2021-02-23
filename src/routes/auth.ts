@@ -117,4 +117,24 @@ router.post(
 
     })
 
+//api/auth/me
+router.post(
+    '/me',
+
+    async (req: any, res: any) =>{
+        try {
+
+            const {userId} = req.body
+            console.log('req.body', req.body)
+
+            const imgLink = await ImgLink.findOne({userId: userId}) || ''
+            const {name} = await User.findById(userId)
+
+            res.json({ avatar: imgLink.avatar, name: name, ok: true})
+        } catch (e) {
+            res.status(500).json({message: "Something went wrong, try again", ok: false})
+        }
+
+    })
+
 module.exports = router

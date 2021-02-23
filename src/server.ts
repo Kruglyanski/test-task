@@ -11,7 +11,7 @@ const authRoutes = require('./routes/auth')
 
 const storage = multer.diskStorage({
     destination:function(req, file, cb) {
-        cb(null, 'uploads')
+        cb(null, 'src/uploads')
     },
     filename:function(req, file, cb) {
         const date = moment().format('DDMMYYYY-HHmmss_SSS')
@@ -19,13 +19,15 @@ const storage = multer.diskStorage({
     }
 })
 
+
 app.use(express.json({extended: true}))
 app.use('/api/auth', authRoutes)
 app.use(multer({storage}).single("image"))
 app.post("/api/auth/upload", async function (req, res, next) {
     try {
+        console.log('req.body', req.body)
         const avatar = req.file ? req.file.path : ''
-        const userId=  ''
+        const userId= req.body ? req.body.userId : ''
         const imgLink = new ImgLink({avatar, userId})
         await imgLink.save()
 
@@ -49,7 +51,7 @@ if (process.env.NODE_ENV === 'production') {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
     } )
 }
-
+app.use('/uploads', express.static(__dirname + '/uploads'))
 async function start() {
     try {
         await mongoose.connect(config.get('mongoUri'),{

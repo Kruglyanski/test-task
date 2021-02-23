@@ -21,7 +21,7 @@ export const AuthPage = () => {
 
     useEffect(() => {
         const localStorageAuthData = JSON.parse(localStorage.getItem('userData') as string)
-        localStorageAuthData && dispatch(setIsAuthenticated(true))
+        localStorageAuthData && dispatch(setIsAuthenticated(localStorageAuthData))
     }, [])
 
 

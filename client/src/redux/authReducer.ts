@@ -18,6 +18,8 @@ const initialState = {
     token: '',
     userId: '',
     authError: '',
+    avatar: '',
+    name: '',
     isAuthenticated: false,
     isRegistered: false, // to false!!!
     registerMessage: '',
@@ -59,6 +61,13 @@ export const authRegister = createAsyncThunk(
             .then((res) => res && res.json())
     }
 )
+export const setMe = createAsyncThunk(
+    'authReducer/setMe ',
+    async (userId: string) => {
+        return await api.getAvatar(userId)
+            .then((res) => res && res.json())
+    }
+)
 
 const authReducer = createSlice({
     name: 'authReducer',
@@ -79,7 +88,9 @@ const authReducer = createSlice({
         setIsAuthenticated: (state, action) => {
             return {
                 ...state,
-                isAuthenticated: action.payload
+                token: action.payload.token,
+                userId: action.payload.userId,
+                isAuthenticated: !!action.payload.token
             }
         },
         setIsRegistered: (state, action) => {
@@ -133,6 +144,15 @@ const authReducer = createSlice({
                 ...state,
                 registerMessage: action.payload.message,
                 isRegistered: action.payload.ok
+            }
+
+        },
+        [setMe.fulfilled.type]: (state, action) => {
+
+            return {
+                ...state,
+                avatar: action.payload.avatar ? action.payload.avatar.split('\\').join('/').slice(3) : '',
+                name: action.payload.name
             }
 
         },

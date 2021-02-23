@@ -1,6 +1,9 @@
 import React from 'react'
 import { Upload, message, Button } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
+import {useDispatch, useSelector} from 'react-redux'
+import {RootState} from '../../redux/rootReducer'
+import {setMe} from '../../redux/authReducer'
 
 
 const props = {
@@ -19,10 +22,16 @@ const props = {
 }
 
 export const FileUploader = () => {
+   const dispatch = useDispatch()
+    const userId = useSelector((state: RootState) => state.auth.userId)
+    const uploadHandler = () => {
+        dispatch(setMe(userId))
+    }
     return (
 
-        <Upload {...props}>
+        <Upload {...props} data={{userId: userId}} onChange={uploadHandler}>
             <Button icon={<UploadOutlined />} >Upload Photo</Button>
+
         </Upload>
 
     )

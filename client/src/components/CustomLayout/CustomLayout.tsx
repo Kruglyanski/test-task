@@ -1,24 +1,36 @@
-import React from 'react'
-import { Layout, Menu } from 'antd'
-import {authLogout} from '../../redux/authReducer'
-import { UploadOutlined, UserOutlined, CoffeeOutlined } from '@ant-design/icons'
+import React, {useEffect} from 'react'
+import {Layout, Menu} from 'antd'
+import {authLogout, setMe} from '../../redux/authReducer'
+import {UploadOutlined, UserOutlined, CoffeeOutlined} from '@ant-design/icons'
 import {Link, useHistory, useLocation} from 'react-router-dom'
 import './CustomLayout.css'
 
 
-import {useDispatch} from 'react-redux'
-const { Header, Content, Footer, Sider } = Layout
+import {useDispatch, useSelector} from 'react-redux'
+import {CustomAvatar} from '../CustomAvatar/CustomAvatar'
+import {FileUploader} from '../FileUploader/FileUploader'
+import {RootState} from '../../redux/rootReducer'
+
+const {Header, Content, Footer, Sider} = Layout
 
 
-export const CustomLayout:React.FC<React.ReactNode> = ({children}) => {
+export const CustomLayout: React.FC<React.ReactNode> = ({children}) => {
     const dispatch = useDispatch()
-   const history = useHistory()
+    const avatar = useSelector((state: RootState) => state.auth.avatar)
+    const userId = useSelector((state: RootState) => state.auth.userId)
+    const userName = useSelector((state: RootState) => state.auth.name)
+    const history = useHistory()
     let location = useLocation()
     const logoutHandler = () => {
         dispatch(authLogout())
         localStorage.removeItem('userData')
         history.push(`/`)
     }
+
+    useEffect(() => {
+        dispatch(setMe(userId))
+    }, [avatar])
+
     return (
 
         <Layout style={{minHeight: '100vh', height: 'auto'}}>
@@ -26,42 +38,56 @@ export const CustomLayout:React.FC<React.ReactNode> = ({children}) => {
                 breakpoint="lg"
                 collapsedWidth="0"
                 onBreakpoint={broken => {
-                    console.log(broken);
+                    console.log(broken)
                 }}
                 onCollapse={(collapsed, type) => {
-                    console.log(collapsed, type);
+                    console.log(collapsed, type)
                 }}
             >
-                <div className="logo" />
+                <div className="logo"/>
 
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={["/flood"]}
+                <Menu theme="dark" mode="inline" defaultSelectedKeys={['/flood']}
                       selectedKeys={[location.pathname]}
                 >
-                    <Menu.Item key="/prof" icon={<UserOutlined />}>
+                    <Menu.Item key="/prof" icon={<UserOutlined/>}>
                         <Link to="/prof">Corporate Chat</Link>
                     </Menu.Item>
-                    <Menu.Item key="/flood" icon={<CoffeeOutlined />}>
+                    <Menu.Item key="/flood" icon={<CoffeeOutlined/>}>
                         <Link to="/flood"> Flood Chat</Link>
                     </Menu.Item>
-                    <Menu.Item key="/something" icon={<UploadOutlined />}>
+                    <Menu.Item key="/something" icon={<UploadOutlined/>}>
                         <Link to="/something">Something Else</Link>
                     </Menu.Item>
 
                 </Menu>
             </Sider>
             <Layout>
-                <Header className="site-layout-sub-header-background"  >
+                <Header className="site-layout-sub-header-background">
+                    <div className='me'>
+                        <div className='name'>{userName}</div>
+                        {
+                            avatar
+                                ?
+                                <CustomAvatar avatar={avatar}/>
+                                :
+                                <div className='uploadWrapper'>
+                                    <FileUploader/>
+                                </div>
+                        }
 
-                    <div className='logout' >
-                        <Link to={'/'} onClick={logoutHandler}>Выйти</Link>
+
+                        <div className='logout'>
+                            <Link to={'/'} onClick={logoutHandler}>Выйти</Link>
+                        </div>
                     </div>
+
                 </Header>
-                <Content style={{ margin: '24px 16px 0' }}>
-                    <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+                <Content style={{margin: '24px 16px 0'}}>
+                    <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
                         {children}
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>Planktonics ©2021 Created by Roman Kruglyanski</Footer>
+                <Footer style={{textAlign: 'center'}}>Planktonics ©2021 Created by Roman Kruglyanski</Footer>
             </Layout>
         </Layout>
 

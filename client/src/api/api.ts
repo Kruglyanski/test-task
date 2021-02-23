@@ -19,20 +19,6 @@ export const api = {
                 console.log(error)
             })
     },
-    // upload(data: any) {
-    //
-    //     return fetch('/api/auth/upload', {
-    //         method: 'POST',
-    //         body: JSON.stringify(data)
-    //     }).then(function (response) {
-    //         console.log(response)
-    //         return response
-    //     })
-    //         .catch(function (error) {
-    //             console.log(error)
-    //         })
-    // },
-
     login(loginForm: LoginFormType) {
 
         return fetch('/api/auth/login', {
@@ -50,7 +36,25 @@ export const api = {
             .catch(function (error) {
                 console.log(error)
             })
-    }
+    },
+    getAvatar(userId: string) {
+
+        return fetch('/api/auth/me', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userId
+            })
+        }).then(function (response) {
+            console.log(response)
+            return response
+        })
+            .catch(function (error) {
+                console.log(error)
+            })
+    },
 
 
 }
