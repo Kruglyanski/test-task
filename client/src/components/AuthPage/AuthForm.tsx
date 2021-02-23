@@ -1,7 +1,7 @@
 import React from 'react'
 import {Button, Form, Input} from 'antd'
 import {UserOutlined, LockOutlined} from '@ant-design/icons'
-import {authLogin, loginFormChange, setIsCustomModalVisible} from '../../redux/authReducer'
+import {authLogin, cleanAuthError, loginFormChange, setIsCustomModalVisible, setIsMessageShow} from '../../redux/authReducer'
 import {useDispatch, useSelector} from 'react-redux'
 import {RootState} from '../../redux/rootReducer'
 import { api } from '../../api/api'
@@ -13,12 +13,17 @@ export const AuthForm: React.FC = () => {
 
     const showModal = () => {
         dispatch(setIsCustomModalVisible(true))
+        dispatch(cleanAuthError())
+
     }
     const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(loginFormChange({[event.target.name]: event.target.value}))
     }
     const loginHandler =  async () => {
        await dispatch(authLogin(loginForm))
+        dispatch(setIsMessageShow(true))
+        dispatch(setIsMessageShow(false))
+        dispatch(cleanAuthError())
     }
 
     return (
