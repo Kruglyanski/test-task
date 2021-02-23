@@ -4,17 +4,19 @@ import {authLogout} from '../../redux/authReducer'
 import { UploadOutlined, UserOutlined, CoffeeOutlined } from '@ant-design/icons'
 import {Link, useHistory, useLocation} from 'react-router-dom'
 import './CustomLayout.css'
-import { useDispatch } from 'react-redux'
+
+
+import {useDispatch} from 'react-redux'
 const { Header, Content, Footer, Sider } = Layout
 
 
 export const CustomLayout:React.FC<React.ReactNode> = ({children}) => {
-    const history = useHistory()
-    let location = useLocation()
     const dispatch = useDispatch()
+   const history = useHistory()
+    let location = useLocation()
     const logoutHandler = () => {
-        //localStorage.removeItem('userData')
         dispatch(authLogout())
+        localStorage.removeItem('userData')
         history.push(`/`)
     }
     return (

@@ -1,15 +1,25 @@
 import React from 'react'
 import {Button, Form, Input} from 'antd'
 import {UserOutlined, LockOutlined} from '@ant-design/icons'
-import {authLogin, cleanAuthError, loginFormChange, setIsCustomModalVisible, setIsMessageShow} from '../../redux/authReducer'
+import {
+    authLogin,
+    cleanAuthError,
+    loginFormChange,
+    setIsCustomModalVisible,
+    setIsMessageShow
+} from '../../redux/authReducer'
 import {useDispatch, useSelector} from 'react-redux'
 import {RootState} from '../../redux/rootReducer'
-import { api } from '../../api/api'
+
+
 
 
 export const AuthForm: React.FC = () => {
+
     const dispatch = useDispatch()
     const loginForm = useSelector((state: RootState) => state.auth.loginForm)
+    const token = useSelector((state: RootState) => state.auth.token)
+    const userId = useSelector((state: RootState) => state.auth.userId)
 
     const showModal = () => {
         dispatch(setIsCustomModalVisible(true))
@@ -19,8 +29,12 @@ export const AuthForm: React.FC = () => {
     const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(loginFormChange({[event.target.name]: event.target.value}))
     }
-    const loginHandler =  async () => {
-       await dispatch(authLogin(loginForm))
+    const loginHandler = async () => {
+
+        await dispatch(authLogin(loginForm))
+        // localStorage.setItem('userData', JSON.stringify({
+        //     userId: userId, token: token
+        // }))
         dispatch(setIsMessageShow(true))
         dispatch(setIsMessageShow(false))
         dispatch(cleanAuthError())

@@ -15,8 +15,8 @@ export type RegistrationFormType = {
 
 const initialState = {
     isModalVisible: false,
-    token: null,
-    userId: null,
+    token: '',
+    userId: '',
     authError: '',
     isAuthenticated: false,
     isRegistered: false, // to false!!!
@@ -44,6 +44,10 @@ export const authLogin = createAsyncThunk(
         if (!data.token) {
             throw new Error(data.message || 'Something went wrong!')
         }
+
+        localStorage.setItem('userData', JSON.stringify({
+            userId: data.userId, token: data.token
+        }))
         return data
 
     }
@@ -102,8 +106,8 @@ const authReducer = createSlice({
         authLogout: (state) => {
             return {
                 ...state,
-                token: null,
-                userId: null,
+                token: '',
+                userId: '',
                 isAuthenticated: false,
                 loginForm: {
                     ...state.loginForm,

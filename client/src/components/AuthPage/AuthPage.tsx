@@ -5,7 +5,7 @@ import {AuthForm} from './AuthForm'
 import {useDispatch, useSelector} from 'react-redux'
 import {RootState} from '../../redux/rootReducer'
 import {CustomModal} from '../CustomModal/CustomModal'
-import {setIsMessageShow} from '../../redux/authReducer'
+import {setIsAuthenticated, setIsMessageShow} from '../../redux/authReducer'
 import {RegistrationForm} from '../RegistrationForm/RegistrationForm'
 
 export const AuthPage = () => {
@@ -17,11 +17,12 @@ export const AuthPage = () => {
     const authError = useSelector((state: RootState) => state.auth.authError)
 
 
-    //const localStorageAuthData = JSON.parse(localStorage.getItem('userData'))
 
-    // useEffect(() => {
-    //     localStorageAuthData && dispatch(setIsAuthenticated(jwt.verify(localStorageAuthData.token, 'jwtSecret')))
-    // }, [])
+
+    useEffect(() => {
+        const localStorageAuthData = JSON.parse(localStorage.getItem('userData') as string)
+        localStorageAuthData && dispatch(setIsAuthenticated(true))
+    }, [])
 
 
     // const loginHandler = () => {
