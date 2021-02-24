@@ -8,6 +8,7 @@ import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {RootState} from './redux/rootReducer'
 import {CustomLayout} from './components/CustomLayout/CustomLayout'
+import {InfoPage} from './components/InfoPage/InfoPage'
 
 function App() {
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
@@ -29,6 +30,11 @@ function App() {
                             <Route path="/prof" exact>
                                 <CustomLayout>
                                     <ProfPage/>
+                                </CustomLayout>
+                            </Route>
+                            <Route path="/info" exact>
+                                <CustomLayout>
+                                    <InfoPage/>
                                 </CustomLayout>
                             </Route>
                             <Redirect to="/prof"/>

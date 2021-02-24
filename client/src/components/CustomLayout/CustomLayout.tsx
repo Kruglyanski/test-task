@@ -55,8 +55,8 @@ export const CustomLayout: React.FC<React.ReactNode> = ({children}) => {
                     <Menu.Item key="/flood" icon={<CoffeeOutlined/>}>
                         <Link to="/flood"> Flood Chat</Link>
                     </Menu.Item>
-                    <Menu.Item key="/something" icon={<UploadOutlined/>}>
-                        <Link to="/something">Something Else</Link>
+                    <Menu.Item key="/info" icon={<UploadOutlined/>}>
+                        <Link to="/info">Information</Link>
                     </Menu.Item>
 
                 </Menu>
@@ -77,7 +77,7 @@ export const CustomLayout: React.FC<React.ReactNode> = ({children}) => {
 
 
                         <div className='logout'>
-                            <Link to={'/'} onClick={logoutHandler}>Выйти</Link>
+                            <Link to={'/'} onClick={logoutHandler}>Log Out</Link>
                         </div>
                     </div>
 

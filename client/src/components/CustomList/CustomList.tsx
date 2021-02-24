@@ -1,5 +1,5 @@
 import React from 'react'
-import {List, Avatar, Space} from 'antd'
+import {List, Avatar} from 'antd'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../redux/rootReducer'
 
@@ -9,8 +9,9 @@ import {RootState} from '../../redux/rootReducer'
 
 
 export const CustomList = () => {
-    const floodPosts = useSelector((state: RootState) => state.post.floodPosts)
-    console.log("fl", floodPosts)
+    const posts = useSelector((state: RootState) => state.post.posts)
+
+
     return (
 
 
@@ -18,7 +19,7 @@ export const CustomList = () => {
             itemLayout="vertical"
             size="large"
 
-            dataSource={floodPosts}
+            dataSource={posts.slice().reverse()}
             renderItem={item => (
                 <List.Item
                     key={item._id}

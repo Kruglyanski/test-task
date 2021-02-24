@@ -11,8 +11,7 @@ export type PostType = {
 }
 
 type StateType = {
-    floodPosts: PostsArrayType
-    corpPosts: PostsArrayType
+    posts: PostsArrayType
     text: string
 }
 
@@ -20,8 +19,7 @@ type StateType = {
 
 
 const initialState: StateType = {
-    floodPosts: [],
-    corpPosts: [],
+    posts: [],
     text: ''
 }
 
@@ -53,17 +51,7 @@ export const sendPost = createAsyncThunk(
         return data
     }
 )
-// export const sendPost = createAsyncThunk(
-//     'postReducer/sendPost',
-//     async (post: { text: string, userName: string, avatar: string }) => {
-//          const data = await api.sendPost(post).then((res) => res && res.json())
-//         if (!data) {
-//             throw new Error(data.message || 'Something went wrong!')
-//         }
-//         console.log('data', data)
-//         return data
-//     }
-// )
+
 
 
 const postReducer = createSlice({
@@ -75,6 +63,12 @@ const postReducer = createSlice({
                 ...state,
                 text: action.payload
             }
+        },
+        clearInput: (state) => {
+            return {
+                ...state,
+                text: ''
+            }
         }
 
 
@@ -85,7 +79,7 @@ const postReducer = createSlice({
 
             return {
                 ...state,
-                floodPosts: action.payload
+                posts: action.payload
             }
 
         },
@@ -93,8 +87,8 @@ const postReducer = createSlice({
             console.log('ap', action.payload)
             return {
                 ...state,
-                floodPosts: [
-                    ...state.floodPosts,
+                posts: [
+                    ...state.posts,
                     action.payload
                 ]
             }
@@ -105,6 +99,6 @@ const postReducer = createSlice({
     }
 })
 
-export const {currentPostChange} = postReducer.actions
+export const {currentPostChange, clearInput} = postReducer.actions
 
 export default postReducer.reducer
