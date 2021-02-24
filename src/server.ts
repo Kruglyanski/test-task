@@ -43,16 +43,16 @@ app.post("/api/auth/upload", async function (req, res, next) {
 })
 
 if (process.env.NODE_ENV === 'production') {
-    app.use('/', express.static(path.join(__dirname, 'client', 'build')))
+    app.use('/', express.static(path.join(__dirname, 'client/build')))
 
     app.get('*', (req,res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+        res.sendFile(path.resolve(__dirname, 'client/build', 'index.html'))
     } )
 }
 app.use('/uploads', express.static(__dirname + '/uploads'))
 async function start() {
     try {
-        await mongoose.connect(config.get('mongoUri'),{
+        await mongoose.connect(config.get(process.env.MONGODB_URI || 'mongoUri'),{
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true
