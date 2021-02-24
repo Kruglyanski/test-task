@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react'
+// @ts-ignore
 import {Link, useHistory, useLocation} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import {Layout, Menu} from 'antd'

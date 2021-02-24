@@ -1,6 +1,6 @@
-import { Avatar } from 'antd'
-
 import React from 'react'
+
+import { Avatar } from 'antd'
 type PropsType = {
     avatar: string
 }
