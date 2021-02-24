@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,24 +35,66 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+exports.__esModule = true;
 var path = require('path');
+var multer_1 = __importDefault(require("multer"));
+var moment = require('moment');
+var ImgLink = require('./models/ImgLink');
 var mongoose = require('mongoose');
 var express = require('express');
 var config = require('config');
 var app = express();
 var PORT = config.get('port');
-var authRoutes = require('./routes/auth');
+var storage = multer_1["default"].diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'src/uploads');
+    },
+    filename: function (req, file, cb) {
+        var date = moment().format('DDMMYYYY-HHmmss_SSS');
+        cb(null, date + "-" + file.originalname);
+    }
+});
 app.use(express.json({ extended: true }));
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/posts', require('./routes/posts'));
+app.use(multer_1["default"]({ storage: storage }).single("image"));
+app.post("/api/auth/upload", function (req, res, next) {
+    return __awaiter(this, void 0, void 0, function () {
+        var avatar, userId, imgLink, e_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    avatar = req.file ? req.file.path : '';
+                    userId = req.body ? req.body.userId : '';
+                    imgLink = new ImgLink({ avatar: avatar, userId: userId });
+                    return [4 /*yield*/, imgLink.save()];
+                case 1:
+                    _a.sent();
+                    res.status(201).json({ message: "Link Created" });
+                    return [3 /*break*/, 3];
+                case 2:
+                    e_1 = _a.sent();
+                    res.status(500).json({ message: "Something went wrong, try again", ok: false });
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+});
 if (process.env.NODE_ENV === 'production') {
     app.use('/', express.static(path.join(__dirname, 'client', 'build')));
     app.get('*', function (req, res) {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
 }
+app.use('/uploads', express.static(__dirname + '/uploads'));
 function start() {
     return __awaiter(this, void 0, void 0, function () {
-        var e_1;
+        var e_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -66,8 +109,8 @@ function start() {
                     app.listen(PORT, function () { return console.log("App has been started on port " + PORT + "!!!"); });
                     return [3 /*break*/, 3];
                 case 2:
-                    e_1 = _a.sent();
-                    console.log('Server ERROR', e_1.message);
+                    e_2 = _a.sent();
+                    console.log('Server ERROR', e_2.message);
                     process.exit(1);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];

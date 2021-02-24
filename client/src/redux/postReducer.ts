@@ -84,7 +84,7 @@ const postReducer = createSlice({
 
         },
         [sendPost.fulfilled.type]: (state, action) => {
-            console.log('ap', action.payload)
+
             return {
                 ...state,
                 posts: [

@@ -7,7 +7,6 @@ const Post = require('../models/Post')
 router.get(
     '/fetchposts',
     async (req: any, res: any) =>{
-        console.log('req.params', req.query)
 
         const isFlood = req.query.isFlood
         try {

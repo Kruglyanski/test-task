@@ -29,7 +29,7 @@ app.use('/api/posts', require('./routes/posts'))
 app.use(multer({storage}).single("image"))
 app.post("/api/auth/upload", async function (req, res, next) {
     try {
-        console.log('req.body', req.body)
+
         const avatar = req.file ? req.file.path : ''
         const userId= req.body ? req.body.userId : ''
         const imgLink = new ImgLink({avatar, userId})

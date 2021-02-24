@@ -21,7 +21,6 @@ router.post(
         try {
 
             const errors = validationResult(req)
-            console.log('req.body', req.body)
             if (!errors.isEmpty()) {
                 return res.status(400).json({errors: errors.array(), message: "Incorrect registration data", ok: false})
             }
@@ -63,7 +62,6 @@ router.post(
                 return res.status(400).json(({errors: errors.array(), message: "Incorrect data", ok: false}))
             }
             const {email, password} = req.body
-            console.log('req.body', req.body)
 
             const user = await User.findOne({email: email})
 

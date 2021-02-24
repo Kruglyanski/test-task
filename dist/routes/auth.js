@@ -42,6 +42,7 @@ exports.__esModule = true;
 var Router = require('express').Router;
 var router = Router();
 var User = require('../models/User');
+var ImgLink = require('../models/ImgLink');
 var bcrypt = require('bcryptjs');
 var _a = require('express-validator'), check = _a.check, validationResult = _a.validationResult;
 var jwt = require('jsonwebtoken');
@@ -50,36 +51,36 @@ var config_1 = __importDefault(require("config"));
 router.post('/register', [
     check('email', 'Incorrect email').isEmail(),
     check('password', 'Minimal length of password is 6 symbols')
-        .isLength({ min: 6 })
+        .isLength({ min: 6 }),
 ], function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var errors, _a, email, password, candidate, hashedPassword, user, e_1;
+    var errors, _a, email, password, name_1, candidate, hashedPassword, user, e_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 4, , 5]);
                 errors = validationResult(req);
                 if (!errors.isEmpty()) {
-                    return [2 /*return*/, res.status(400).json({ errors: errors.array(), message: "Incorrect registration data" })];
+                    return [2 /*return*/, res.status(400).json({ errors: errors.array(), message: "Incorrect registration data", ok: false })];
                 }
-                _a = req.body, email = _a.email, password = _a.password;
+                _a = req.body, email = _a.email, password = _a.password, name_1 = _a.name;
                 return [4 /*yield*/, User.findOne({ email: email })];
             case 1:
                 candidate = _b.sent();
                 if (candidate) {
-                    return [2 /*return*/, res.status(400).json({ message: "User is already exists" })];
+                    return [2 /*return*/, res.status(400).json({ message: "User is already exists", ok: false })];
                 }
                 return [4 /*yield*/, bcrypt.hash(password, 12)];
             case 2:
                 hashedPassword = _b.sent();
-                user = new User({ email: email, password: hashedPassword });
+                user = new User({ email: email, password: hashedPassword, name: name_1 });
                 return [4 /*yield*/, user.save()];
             case 3:
                 _b.sent();
-                res.status(201).json({ message: "User successfully created" });
+                res.status(201).json({ message: "User successfully created", ok: true });
                 return [3 /*break*/, 5];
             case 4:
                 e_1 = _b.sent();
-                res.status(500).json({ message: "Something went wrong, try again" });
+                res.status(500).json({ message: "Something went wrong, try again", ok: false });
                 return [3 /*break*/, 5];
             case 5: return [2 /*return*/];
         }
@@ -97,27 +98,53 @@ router.post('/login', [
                 _b.trys.push([0, 3, , 4]);
                 errors = validationResult(req);
                 if (!errors.isEmpty()) {
-                    return [2 /*return*/, res.status(400).json(({ errors: errors.array(), message: "Incorrect login data" }))];
+                    return [2 /*return*/, res.status(400).json(({ errors: errors.array(), message: "Incorrect data", ok: false }))];
                 }
                 _a = req.body, email = _a.email, password = _a.password;
+                console.log('req.body', req.body);
                 return [4 /*yield*/, User.findOne({ email: email })];
             case 1:
                 user = _b.sent();
                 if (!user) {
-                    return [2 /*return*/, res.status(400).json({ message: "Incorrect login data" })];
+                    return [2 /*return*/, res.status(400).json({ message: "Incorrect data", ok: false })];
                 }
                 return [4 /*yield*/, bcrypt.compare(password, user.password)];
             case 2:
                 isMatch = _b.sent();
                 if (!isMatch) {
-                    return [2 /*return*/, res.status(400).json({ message: "Incorrect login data" })];
+                    return [2 /*return*/, res.status(400).json({ message: "Incorrect data", ok: false })];
                 }
                 token = jwt.sign({ userId: user.id }, config_1["default"].get('jwtSecret'), { expiresIn: '1h' });
-                res.json({ token: token, userId: user.id });
+                res.json({ token: token, userId: user.id, ok: true });
                 return [3 /*break*/, 4];
             case 3:
                 e_2 = _b.sent();
-                res.status(500).json({ message: "Something went wrong, try again" });
+                res.status(500).json({ message: "Something went wrong, try again", ok: false });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+//api/auth/me
+router.post('/me', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var userId, imgLink, name_2, e_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                userId = req.body.userId;
+                console.log('req.body', req.body);
+                return [4 /*yield*/, ImgLink.findOne({ userId: userId })];
+            case 1:
+                imgLink = (_a.sent()) || '';
+                return [4 /*yield*/, User.findById(userId)];
+            case 2:
+                name_2 = (_a.sent()).name;
+                res.json({ avatar: imgLink.avatar, name: name_2, ok: true });
+                return [3 /*break*/, 4];
+            case 3:
+                e_3 = _a.sent();
+                res.status(500).json({ message: "Something went wrong, try again", ok: false });
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
