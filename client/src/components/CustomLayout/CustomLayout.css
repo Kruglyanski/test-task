@@ -1,4 +1,4 @@
-header.ant-layout-header{
+header.ant-layout-header {
     display: grid;
     padding: 0 15px 0 0;
 }
@@ -12,44 +12,49 @@ header.ant-layout-header{
 }
 
 .ant-layout-header, .ant-layout-sider, .ant-menu-root {
-    background-color: #1f4d6a !important ;
+    background-color: #1f4d6a !important;
 
 }
+
 .me {
     justify-self: end;
 }
 
-.me .name{
+.me .name {
     color: white;
     float: left;
     margin-right: 35px;
 }
-.me .ant-avatar{
+
+.me .ant-avatar {
     float: left;
     margin-right: 35px;
     padding: 5px;
 }
+
 .logout {
     float: left;
 
 }
 
-.logout a{
-    color: #fff!important;
+.logout a {
+    color: #fff !important;
     cursor: pointer;
 }
-.uploadWrapper{
+
+.uploadWrapper {
     font-size: 12px;
     margin-right: 35px;
     float: left;
     width: 125px;
 
 }
-.uploadWrapper button{
+
+.uploadWrapper button {
     font-size: 12px;
     width: 125px;
 }
 
-.me .ant-upload-list-text-container{
+.me .ant-upload-list-text-container {
     display: none;
 }

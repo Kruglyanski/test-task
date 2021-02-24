@@ -1,6 +1,3 @@
-
-import multer from 'multer'
-const moment = require('moment')
 const {Router} = require('express')
 const router = Router()
 const User = require('../models/User')
@@ -9,36 +6,10 @@ const bcrypt = require('bcryptjs')
 const {check, validationResult} = require('express-validator')
 const jwt = require('jsonwebtoken')
 import  config from 'config'
-const upload = require('../middleware/upload')
-const storage = multer.diskStorage({
-    destination:function(req, file, cb) {
-        cb(null, 'uploads')
-    },
-    filename:function(req, file, cb) {
-        const date = moment().format('DDMMYYYY-HHmmss_SSS')
-        cb(null, `${date}-${file.originalname}`)
-    }
-})
-// // /api/auth/upload
-// router.post(
-//     '/upload',
-//         upload.single('image'),
-//     async (req, res) => {
-//         console.log( req.file)
-//         try {
-//             const imgSrc = req.file ? req.file.path : ''
-//             const imgLink = new ImgLink({imgSrc})
-//             await imgLink.save()
-//
-//             res.status(201).json({message: "Link Created"})
-//
-//         } catch (e) {
-//             res.status(500).json({message: "Something went wrong, try again"})
-//         }
-//     })
 
 
 // /api/auth/register
+
 router.post(
     '/register',
     [
@@ -72,7 +43,9 @@ router.post(
             res.status(500).json({message: "Something went wrong, try again", ok: false})
         }
     })
+
 // /api/auth/login
+
 router.post(
     '/login',
     [
@@ -120,7 +93,6 @@ router.post(
 //api/auth/me
 router.post(
     '/me',
-
     async (req: any, res: any) =>{
         try {
 
@@ -136,5 +108,6 @@ router.post(
         }
 
     })
+
 
 module.exports = router

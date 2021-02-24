@@ -13,8 +13,8 @@ export const api = {
             console.log(response)
             return response
         }).catch(function (error) {
-                console.log(error)
-            })
+            console.log(error)
+        })
     },
     login(loginForm: LoginFormType) {
 
@@ -30,8 +30,8 @@ export const api = {
             console.log(response)
             return response
         }).catch(function (error) {
-                console.log(error)
-            })
+            console.log(error)
+        })
     },
     getAvatar(userId: string) {
 
@@ -47,8 +47,8 @@ export const api = {
             console.log(response)
             return response
         }).catch(function (error) {
-                console.log(error)
-            })
+            console.log(error)
+        })
     },
     fetchPosts(isFlood: boolean) {
 
@@ -66,7 +66,7 @@ export const api = {
                 console.log(error)
             })
     },
-    sendPost(post:{text: string, userName: string, avatar: string}) {
+    sendPost(post: { text: string, userName: string, avatar: string }) {
 
         return fetch('/api/posts/sendpost', {
             method: 'POST',
@@ -84,8 +84,7 @@ export const api = {
             .catch(function (error) {
                 console.log(error)
             })
-    },
-
+    }
 
 
 }

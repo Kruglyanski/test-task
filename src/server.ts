@@ -7,13 +7,15 @@ const express = require('express')
 const config = require('config')
 const app = express()
 const PORT = config.get('port')
-const authRoutes = require('./routes/auth')
-const postsRoutes = require('./routes/posts')
+
+
 
 const storage = multer.diskStorage({
+
     destination:function(req, file, cb) {
         cb(null, 'src/uploads')
     },
+
     filename:function(req, file, cb) {
         const date = moment().format('DDMMYYYY-HHmmss_SSS')
         cb(null, `${date}-${file.originalname}`)
@@ -22,7 +24,7 @@ const storage = multer.diskStorage({
 
 
 app.use(express.json({extended: true}))
-app.use('/api/auth', authRoutes)
+app.use('/api/auth', require('./routes/auth'))
 app.use('/api/posts', require('./routes/posts'))
 app.use(multer({storage}).single("image"))
 app.post("/api/auth/upload", async function (req, res, next) {

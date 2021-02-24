@@ -1,12 +1,10 @@
 import React, {useEffect} from 'react'
+import {Link, useHistory, useLocation} from 'react-router-dom'
+import {useDispatch, useSelector} from 'react-redux'
 import {Layout, Menu} from 'antd'
 import {authLogout, setMe} from '../../redux/authReducer'
 import {UploadOutlined, UserOutlined, CoffeeOutlined} from '@ant-design/icons'
-import {Link, useHistory, useLocation} from 'react-router-dom'
 import './CustomLayout.css'
-
-
-import {useDispatch, useSelector} from 'react-redux'
 import {CustomAvatar} from '../CustomAvatar/CustomAvatar'
 import {FileUploader} from '../FileUploader/FileUploader'
 import {RootState} from '../../redux/rootReducer'

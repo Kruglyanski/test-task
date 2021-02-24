@@ -13,7 +13,6 @@ export const CustomModal:React.FC<PropType>  = (props) => {
     const dispatch = useDispatch()
     const isModalVisible = useSelector((state: RootState) => state.auth.isModalVisible)
 
-
     const handleOk = () => {
        dispatch(setIsCustomModalVisible(false))
     }

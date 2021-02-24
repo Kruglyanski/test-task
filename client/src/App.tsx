@@ -1,11 +1,10 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
 import './App.css'
 import 'antd/dist/antd.css'
 import {AuthPage} from './components/AuthPage/AuthPage'
-import {FloodPage} from './components/FloodPage/FloodPage'
-import {ProfPage} from './components/ProfPage/ProfPage'
+import {ChatPage} from './components/ChatPage/ChatPage'
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom'
-import {useSelector} from 'react-redux'
 import {RootState} from './redux/rootReducer'
 import {CustomLayout} from './components/CustomLayout/CustomLayout'
 import {InfoPage} from './components/InfoPage/InfoPage'
@@ -24,12 +23,12 @@ function App() {
                         <Switch>
                             <Route path="/flood" exact>
                                 <CustomLayout>
-                                    <FloodPage/>
+                                    <ChatPage isFlood={true}/>
                                 </CustomLayout>
                             </Route>
                             <Route path="/prof" exact>
                                 <CustomLayout>
-                                    <ProfPage/>
+                                    <ChatPage isFlood={false}/>
                                 </CustomLayout>
                             </Route>
                             <Route path="/info" exact>

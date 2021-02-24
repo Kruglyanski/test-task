@@ -1,17 +1,17 @@
-import {Spin} from 'antd'
 import React, {useEffect, useState} from 'react'
-import {CustomList} from '../CustomList/CustomList'
+import {useDispatch} from 'react-redux'
+import {Spin, Button} from 'antd'
 import {PostForm} from '../PostForm/PostForm'
 import {CustomModal} from '../CustomModal/CustomModal'
-import {Button} from 'antd'
+import {CustomList} from '../CustomList/CustomList'
 import {setIsCustomModalVisible} from '../../redux/authReducer'
-import {useDispatch} from 'react-redux'
 import '../CustomModal/CustomModal.css'
 import {fetchPosts} from '../../redux/postReducer'
 
-
-export const ProfPage = () => {
-    const isFlood = false
+type PropsType = {
+    isFlood: boolean
+}
+export const ChatPage:React.FC<PropsType> = ({isFlood}) => {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(true)
     const showModal = () => {
@@ -24,7 +24,7 @@ export const ProfPage = () => {
         }
         setLoading(false)
         getPosts()
-    }, [])
+    }, [isFlood])
 
     return (
 
@@ -32,7 +32,7 @@ export const ProfPage = () => {
             {
                 loading
                     ?
-                    <Spin size="large" style={{margin: '0 auto'}}/>
+                        <Spin size="large" style={{margin: '0 auto'}}/>
                     :
                     <div>
                         <div className='buttonWrapper'>

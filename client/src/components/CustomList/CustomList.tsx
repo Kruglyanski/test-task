@@ -3,17 +3,10 @@ import {List, Avatar} from 'antd'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../redux/rootReducer'
 
-
-       // avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-
-
-
 export const CustomList = () => {
     const posts = useSelector((state: RootState) => state.post.posts)
 
-
     return (
-
 
         <List
             itemLayout="vertical"

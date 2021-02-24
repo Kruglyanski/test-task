@@ -1,7 +1,7 @@
 import React, {useRef} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import { Button} from 'antd'
 import {EmojiPicker} from '../EmojiPicker/EmojiPicker'
-import {useDispatch, useSelector} from 'react-redux'
 import {clearInput, currentPostChange, sendPost} from '../../redux/postReducer'
 import {setIsCustomModalVisible} from '../../redux/authReducer'
 import {RootState} from '../../redux/rootReducer'
