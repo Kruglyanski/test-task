@@ -66,12 +66,6 @@ export const RegistrationForm = () => {
     }, [isRegistered])
 
 
-    // const fileHandler = (e: any) => {
-    //
-    //     dispatch(authUpload(e.currentTarget.files[0]))
-    //
-    //
-    // }
     return (
         <>
             <Form

@@ -1,6 +1,4 @@
-import axios from 'axios'
 import {LoginFormType, RegistrationFormType} from '../redux/authReducer'
-
 
 export const api = {
     register(registrationForm: RegistrationFormType) {
@@ -14,8 +12,7 @@ export const api = {
         }).then(function (response) {
             console.log(response)
             return response
-        })
-            .catch(function (error) {
+        }).catch(function (error) {
                 console.log(error)
             })
     },
@@ -32,8 +29,7 @@ export const api = {
         }).then(function (response) {
             console.log(response)
             return response
-        })
-            .catch(function (error) {
+        }).catch(function (error) {
                 console.log(error)
             })
     },
@@ -50,11 +46,46 @@ export const api = {
         }).then(function (response) {
             console.log(response)
             return response
+        }).catch(function (error) {
+                console.log(error)
+            })
+    },
+    fetchPosts(isFlood: boolean) {
+
+        return fetch(`/api/posts/fetchposts?isFlood=${isFlood}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+
+        }).then(function (response) {
+            console.log(response)
+            return response
         })
             .catch(function (error) {
                 console.log(error)
             })
     },
+    sendPost(post:{text: string, userName: string, avatar: string}) {
+
+        return fetch('/api/posts/sendpost', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ...post
+            })
+
+        }).then(function (response) {
+            console.log(response)
+            return response
+        })
+            .catch(function (error) {
+                console.log(error)
+            })
+    },
+
 
 
 }

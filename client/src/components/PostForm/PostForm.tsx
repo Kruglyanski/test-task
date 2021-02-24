@@ -1,89 +1,60 @@
-import React from 'react'
-import { Form, Input, InputNumber, Button } from 'antd';
+import React, {useRef} from 'react'
+import { Button} from 'antd'
 import {EmojiPicker} from '../EmojiPicker/EmojiPicker'
-// const layout = {
-//     labelCol: {
-//         span: 8,
-//     },
-//     wrapperCol: {
-//         span: 16,
-//     },
-// }
-const validateMessages = {
-    required: '${label} is required!',
-    types: {
-        email: '${label} is not a valid email!',
-        number: '${label} is not a valid number!',
-    },
-    number: {
-        range: '${label} must be between ${min} and ${max}',
-    },
+import {useDispatch, useSelector} from 'react-redux'
+import {currentPostChange, sendPost} from '../../redux/postReducer'
+import {RootState} from '../../redux/rootReducer'
+
+type PropsType = {
+
+    isFlood: boolean
 }
-export const PostForm = () => {
+export const PostForm:React.FC<PropsType> = ({isFlood}) => {
+    const dispatch = useDispatch()
+    const text = useSelector((state:RootState) => state.post.text)
+    const userName = useSelector((state:RootState) => state.auth.name)
+    const avatar = useSelector((state:RootState) => state.auth.avatar)
+    const ref = useRef(null)
 
+
+    const onEmojiClick = (event:any, emojiObject:any) => {
+        // @ts-ignore
+        const cursor = ref.current.selectionStart
+        const emoText = text.slice(0, cursor) + emojiObject.emoji + text.slice(cursor)
+        dispatch(currentPostChange(emoText))
+    }
+
+    const postHandler = () => {
+        const postData = {text: text, userName: userName, avatar: avatar, isFlood}
+        dispatch(sendPost(postData))
+    }
+
+    const changeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        dispatch(currentPostChange(event.currentTarget.value))
+    }
     return (
-        <Form  name="nest-messages"  validateMessages={validateMessages} layout="vertical">
-            {/*<Form.Item*/}
-            {/*    name={['user', 'name']}*/}
-            {/*    label="Name"*/}
-            {/*    rules={[*/}
-            {/*        {*/}
-            {/*            required: true,*/}
-            {/*        },*/}
-            {/*    ]}*/}
-            {/*>*/}
-            {/*    <Input />*/}
-            {/*</Form.Item>*/}
-            {/*<Form.Item*/}
-            {/*    name={['user', 'email']}*/}
-            {/*    label="Email"*/}
-            {/*    rules={[*/}
-            {/*        {*/}
-            {/*            type: 'email',*/}
-            {/*        },*/}
-            {/*    ]}*/}
-            {/*>*/}
-            {/*    <Input />*/}
-            {/*</Form.Item>*/}
-            {/*<Form.Item*/}
-            {/*    name={['user', 'age']}*/}
-            {/*    label="Age"*/}
-            {/*    rules={[*/}
-            {/*        {*/}
-            {/*            type: 'number',*/}
-            {/*            min: 0,*/}
-            {/*            max: 99,*/}
-            {/*        },*/}
-            {/*    ]}*/}
-            {/*>*/}
-            {/*    <InputNumber />*/}
-            {/*</Form.Item>*/}
-            {/*<Form.Item name={['user', 'website']} label="Website">*/}
-            {/*    <Input />*/}
-            {/*</Form.Item>*/}
-            <Form.Item
-                name={['user', 'introduction']}
-                label="Message"
-                rules={[
-                {
-                    required: true
-                },
-            ]}>
-                <Input.TextArea style={{height:200}}/>
-            </Form.Item>
-            <Form.Item >
-                <EmojiPicker/>
-            </Form.Item>
-            <br/>
-            <Form.Item >
-                <div className="buttonWrapper">
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                </div>
-            </Form.Item>
+        <>
+            <textarea
+                id="text"
+                className="ant-input"
+                ref={ref}
+                onChange={changeHandler}
+                value={text}
+                style={{height: 200}}
+            />
 
-        </Form>
+            {isFlood && <EmojiPicker onEmojiClick={onEmojiClick}/>}
+
+            <br/>
+            <br/>
+
+            <div className="buttonWrapper">
+                <Button type="primary" htmlType="submit" onClick={postHandler}>
+                    Submit
+                </Button>
+            </div>
+
+            </>
     )
 }
 

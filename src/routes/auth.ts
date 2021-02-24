@@ -110,7 +110,7 @@ router.post(
                 config.get('jwtSecret'),
                 {expiresIn: '1h'}
             )
-            res.json({token, userId: user.id,  ok: true})
+            res.json({token, userId: user.id, ok: true})
         } catch (e) {
             res.status(500).json({message: "Something went wrong, try again", ok: false})
         }

@@ -55,14 +55,14 @@ export const authLogin = createAsyncThunk(
     }
 )
 export const authRegister = createAsyncThunk(
-    'authReducer/authRegister ',
+    'authReducer/authRegister',
     async (registrationForm: RegistrationFormType) => {
         return await api.register(registrationForm)
             .then((res) => res && res.json())
     }
 )
 export const setMe = createAsyncThunk(
-    'authReducer/setMe ',
+    'authReducer/setMe',
     async (userId: string) => {
         return await api.getAvatar(userId)
             .then((res) => res && res.json())
@@ -156,15 +156,6 @@ const authReducer = createSlice({
             }
 
         },
-        // [authRegister.rejected.type]: (state, action) => {
-        //
-        //     return {
-        //         ...state,
-        //         registerMessage: action.error.message
-        //
-        //     }
-        //
-        // },
 
         [authLogin.fulfilled.type]: (state, action) => {
 

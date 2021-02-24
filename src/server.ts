@@ -8,6 +8,7 @@ const config = require('config')
 const app = express()
 const PORT = config.get('port')
 const authRoutes = require('./routes/auth')
+const postsRoutes = require('./routes/posts')
 
 const storage = multer.diskStorage({
     destination:function(req, file, cb) {
@@ -22,6 +23,7 @@ const storage = multer.diskStorage({
 
 app.use(express.json({extended: true}))
 app.use('/api/auth', authRoutes)
+app.use('/api/posts', require('./routes/posts'))
 app.use(multer({storage}).single("image"))
 app.post("/api/auth/upload", async function (req, res, next) {
     try {
@@ -36,12 +38,6 @@ app.post("/api/auth/upload", async function (req, res, next) {
     } catch (e) {
         res.status(500).json({message: "Something went wrong, try again", ok: false})
     }
-    // let filedata = req.file;
-    // console.log(filedata);
-    // if(!filedata)
-    //     res.send("Ошибка при загрузке файла")
-    // else
-    //     res.send("Файл загружен")
 })
 
 if (process.env.NODE_ENV === 'production') {
