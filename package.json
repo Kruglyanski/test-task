@@ -4,7 +4,7 @@
   "description": "react, redux, typescript, mongoDB, express, nodeJS",
   "main": "dist/server.js",
   "scripts": {
-    "start": "nodemon dist/server.js",
+    "start": "node dist/server.js",
     "build": "tsc --watch --preserveWatchOutput",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm build\" \"npm start\" \"npm run client\"",
