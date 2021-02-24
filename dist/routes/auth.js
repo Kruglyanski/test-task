@@ -101,7 +101,6 @@ router.post('/login', [
                     return [2 /*return*/, res.status(400).json(({ errors: errors.array(), message: "Incorrect data", ok: false }))];
                 }
                 _a = req.body, email = _a.email, password = _a.password;
-                console.log('req.body', req.body);
                 return [4 /*yield*/, User.findOne({ email: email })];
             case 1:
                 user = _b.sent();
@@ -133,7 +132,6 @@ router.post('/me', function (req, res) { return __awaiter(void 0, void 0, void 0
             case 0:
                 _a.trys.push([0, 3, , 4]);
                 userId = req.body.userId;
-                console.log('req.body', req.body);
                 return [4 /*yield*/, ImgLink.findOne({ userId: userId })];
             case 1:
                 imgLink = (_a.sent()) || '';

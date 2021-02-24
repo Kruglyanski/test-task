@@ -47,7 +47,7 @@ var mongoose = require('mongoose');
 var express = require('express');
 var config = require('config');
 var app = express();
-var PORT = config.get('port');
+var PORT = process.env.PORT || 5000;
 var storage = multer_1["default"].diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'src/uploads');

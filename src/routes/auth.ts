@@ -95,7 +95,6 @@ router.post(
         try {
 
             const {userId} = req.body
-            console.log('req.body', req.body)
 
             const imgLink = await ImgLink.findOne({userId: userId}) || ''
             const {name} = await User.findById(userId)
