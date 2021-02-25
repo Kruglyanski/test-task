@@ -4,12 +4,13 @@
   "description": "react, redux, typescript, mongoDB, express, nodeJS",
   "main": "dist/server.js",
   "scripts": {
-    "start": "tsc --watch --preserveWatchOutput && node dist/server.js",
-    "build-client": "cd client && npm run build",
+    "start": "NODE_ENV=production node dist/server.js",
+    "server": "nodemon dist/server.js",
+    "build-client": "npm run build --prefix client",
     "build": "tsc --watch --preserveWatchOutput",
-    "client": "cd client && npm start ",
-    "install-client": "cd client && npm install ",
-    "dev": "concurrently \"npm build\" \"npm start\" \"npm run client\"",
+    "install-client": "npm install --prefix client ",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run build\" \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "npm run install-client && npm run build-client"
   },
   "author": "Roman Kruglyanski <eviltroll@yandex.ru>",

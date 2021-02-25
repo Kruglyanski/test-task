@@ -52,7 +52,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use('/uploads', express.static(__dirname + '/uploads'))
 async function start() {
     try {
-        await mongoose.connect(config.get(process.env.MONGODB_URI || 'mongoUri'),{
+        await mongoose.connect(config.get('mongoUri'),{
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true
