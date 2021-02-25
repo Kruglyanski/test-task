@@ -2,7 +2,6 @@ import {LoginFormType, RegistrationFormType} from '../redux/authReducer'
 
 export const api = {
     register(registrationForm: RegistrationFormType) {
-
         return fetch('/api/auth/register', {
             method: 'POST',
             headers: {
@@ -54,6 +53,21 @@ export const api = {
 
         return fetch(`/api/posts/fetchposts?isFlood=${isFlood}`, {
             method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+
+        }).then(function (response) {
+            console.log(response)
+            return response
+        })
+            .catch(function (error) {
+                console.log(error)
+            })
+    },
+    deletePost(id: number) {
+        return fetch(`/api/posts/deletepost?id=${id}`, {
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
             }

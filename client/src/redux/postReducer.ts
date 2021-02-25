@@ -16,8 +16,6 @@ type StateType = {
 }
 
 
-
-
 const initialState: StateType = {
     posts: [],
     text: ''
@@ -51,6 +49,13 @@ export const sendPost = createAsyncThunk(
         return data
     }
 )
+export const deletePost = createAsyncThunk(
+    'postReducer/deletePost',
+    async (id: number) => {
+         await api.deletePost(id)
+        return id
+    }
+)
 
 
 
@@ -80,6 +85,15 @@ const postReducer = createSlice({
             return {
                 ...state,
                 posts: action.payload
+            }
+
+        },
+        [deletePost.fulfilled.type]: (state, action) => {
+
+            return {
+                ...state,
+                posts: [...state.posts.filter(i=>i._id !== String(action.payload))]
+
             }
 
         },

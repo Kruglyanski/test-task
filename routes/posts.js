@@ -3,7 +3,7 @@ const router = Router()
 const Post = require('../models/Post')
 
 
-// /api/auth/fetchposts
+// /api/posts/fetchposts
 router.get(
     '/fetchposts',
     async (req, res) =>{
@@ -17,7 +17,23 @@ router.get(
             res.status(500).json({message: "Something went wrong, try again", ok: false})
         }
     })
-// /api/auth/sendpost
+// /api/posts/deletepost
+router.delete(
+    '/deletepost',
+    async (req, res) =>{
+
+        const id = req.query.id
+        console.log(id)
+        try {
+            await Post.findOneAndDelete({_id: id})
+
+            res.json({ message: "Post deleted successfully", ok: true})
+
+        } catch (e) {
+            res.status(500).json({message: "Something went wrong, try again", ok: false})
+        }
+    })
+// /api/posts/sendpost
 router.post(
     '/sendpost',
 
