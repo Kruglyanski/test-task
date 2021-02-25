@@ -4,7 +4,7 @@
   "description": "react, redux, typescript, mongoDB, express, nodeJS",
   "main": "dist/server.js",
   "scripts": {
-    "start": "NODE_ENV=production node dist/server.js",
+    "start": "NODE_ENV=production node dist/server.js cd.." ,
     "server": "nodemon dist/server.js",
     "build-client": "npm run build --prefix client",
     "build": "tsc --watch --preserveWatchOutput",
