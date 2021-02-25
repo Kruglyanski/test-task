@@ -4,7 +4,7 @@
   "description": "react, redux, typescript, mongoDB, express, nodeJS",
   "main": "dist/server.js",
   "scripts": {
-    "start": "node dist/server.js",
+    "start": "tsc --watch --preserveWatchOutput && node dist/server.js",
     "build-client": "cd client && npm run build",
     "build": "tsc --watch --preserveWatchOutput",
     "client": "cd client && npm start ",
