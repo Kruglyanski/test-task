@@ -99,7 +99,7 @@ function start() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, mongoose.connect(config.get('mongoUri'), {
+                    return [4 /*yield*/, mongoose.connect(config.get(process.env.MONGODB_URI || 'mongoUri'), {
                             useNewUrlParser: true,
                             useUnifiedTopology: true,
                             useCreateIndex: true
