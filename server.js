@@ -41,15 +41,16 @@ app.post("/api/auth/upload", async function (req, res, next) {
         res.status(500).json({message: "Something went wrong, try again", ok: false})
     }
 })
-
+app.use('/uploads', express.static(path.join(__dirname , 'uploads')))
 if (process.env.NODE_ENV === 'production') {
     app.use('/', express.static(path.join(__dirname, 'client', 'build')))
 
     app.get('*', (req, res) => {
         res.sendFile(path.resolve( __dirname, 'client', 'build', 'index.html'))
     } )
+    app.use('/uploads', express.static(path.join(__dirname , 'uploads')))
 }
-app.use('/uploads', express.static( '/uploads'))
+
 async function start() {
     try {
         await mongoose.connect(config.get('mongoUri'),{
