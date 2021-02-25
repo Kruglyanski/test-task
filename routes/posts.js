@@ -6,7 +6,7 @@ const Post = require('../models/Post')
 // /api/auth/fetchposts
 router.get(
     '/fetchposts',
-    async (req: any, res: any) =>{
+    async (req, res) =>{
 
         const isFlood = req.query.isFlood
         try {
@@ -21,7 +21,7 @@ router.get(
 router.post(
     '/sendpost',
 
-    async (req: any, res: any) =>{
+    async (req, res) =>{
         try {
 
             const {text, userName, avatar, isFlood} = req.body

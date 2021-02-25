@@ -5,8 +5,7 @@ const ImgLink = require('../models/ImgLink')
 const bcrypt = require('bcryptjs')
 const {check, validationResult} = require('express-validator')
 const jwt = require('jsonwebtoken')
-import  config from 'config'
-
+const config = require('config')
 
 // /api/auth/register
 
@@ -17,7 +16,7 @@ router.post(
         check('password','Minimal length of password is 6 symbols')
             .isLength({min: 6}),
     ],
-    async (req: any, res: any) =>{
+    async (req, res) =>{
         try {
 
             const errors = validationResult(req)
@@ -53,7 +52,7 @@ router.post(
 
     ],
 
-    async (req: any, res: any) =>{
+    async (req, res) =>{
         try {
 
             const errors = validationResult(req)
@@ -91,7 +90,7 @@ router.post(
 //api/auth/me
 router.post(
     '/me',
-    async (req: any, res: any) =>{
+    async (req, res) =>{
         try {
 
             const {userId} = req.body

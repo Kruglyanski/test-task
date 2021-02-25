@@ -1,4 +1,5 @@
-import {Schema, model} from 'mongoose'
+const {Schema, model} = require('mongoose')
+
 const schema = new Schema({
     avatar: {type: String},
     userId: {type: String}

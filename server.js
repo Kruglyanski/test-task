@@ -1,5 +1,5 @@
 const path = require('path')
-import multer from 'multer'
+const multer = require('multer')
 const moment = require('moment')
 const ImgLink = require('./models/ImgLink')
 const mongoose = require('mongoose')
@@ -45,8 +45,8 @@ app.post("/api/auth/upload", async function (req, res, next) {
 if (process.env.NODE_ENV === 'production') {
     app.use('/', express.static(path.join(__dirname, 'client', 'build')))
 
-    app.get('*', (req: any, res: any) => {
-        res.sendFile(path.resolve( 'app', 'client', 'build', 'index.html'))
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve( __dirname, 'client', 'build', 'index.html'))
     } )
 }
 app.use('/uploads', express.static(__dirname + '/uploads'))
